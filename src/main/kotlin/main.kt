@@ -6,25 +6,25 @@ fun main() {
 }
 
 
-fun calculateFeePay(Card: String = "VkPay", totalSumInMonth: Int = 0, pay: Int = 0 ) {
-    var feePay: Double = 0.00
+fun calculateFeePay (Card: String = "VkPay", totalSumInMonth: Int = 0, pay: Int = 0 ): Int {
+    var feePay: Int = 0
     val LimitInDayToCard: Int = 150_000
     val LimitInMonthToCard: Int = 600_000
     val LimitInDayToOnlinePay: Int = 15_000
     val LimitInMonthToOnlinePay: Int = 40_000
 
-        feePay = when (Card) {
+        feePay = (when (Card) {
             "Master","Maestro" -> {
-                if (pay < 75_000) 0.00
-                else (pay * 0.006 + 20) * 100.00
+                if (pay < 75_000) 0
+                else (pay * 0.006 + 20) * 100
             }
             "Visa", "Mir" -> {
-                if (pay * 0.0075 > 35)  (pay * 0.0075) * 100.00 else 35 * 100.00
+                if (pay * 0.0075 > 35)  (pay * 0.0075) * 100 else 35 * 100
             }
-            else -> 0.00
-        }
+            else -> 0
+        }).toInt()
 
-
+    // calculate fee
     if (Card == "VkPay") {
             if (pay > LimitInDayToOnlinePay) println("Можно оплачивать не более $LimitInDayToOnlinePay в день")
             else if (totalSumInMonth + pay > LimitInMonthToOnlinePay) println("Вы превысили месячный размер переводов: $LimitInMonthToOnlinePay")
@@ -34,6 +34,7 @@ fun calculateFeePay(Card: String = "VkPay", totalSumInMonth: Int = 0, pay: Int =
             else if (totalSumInMonth + pay > LimitInMonthToCard) println("Вы превысили месячный размер переводов: $LimitInMonthToCard")
             else println("Ваша коммисия составила: $feePay копеек")
         }
+    return feePay
 }
 
 
